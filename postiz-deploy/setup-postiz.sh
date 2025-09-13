@@ -74,6 +74,57 @@ rand_jwt() {
 }
 
 # --- Menus ---
+onboarding() {
+  clear 2>/dev/null || true
+  echo "=== Postiz Guided Setup ==="
+  echo "This wizard will help you configure JWT and the social API keys."
+  echo
+  local start=$(read_input "Start guided setup now? [Y/n]: ")
+  if [[ -n "$start" && ! "$start" =~ ^[Yy]$ && ! "$start" =~ ^[Yy][Ee][Ss]$ ]]; then
+    return
+  fi
+  # Step 1: JWT
+  menu_jwt
+  # Step 2: Social keys quick selection (multi-edit)
+  while true; do
+    clear 2>/dev/null || true
+    echo "--- Choose API keys to set (you can leave empty to skip) ---"
+    echo "Tip: you can also configure keys later from the main menu."
+    echo
+    # Reuse social menu 'a' style multi-select for speed
+    echo "Enter comma-separated numbers to edit multiple keys now, or press Enter to skip."
+    # Print list
+    local i=1
+    declare -a idxmap=()
+    for k in "${SOCIAL_KEYS[@]}"; do
+      printf "%2d) %-24s %s\n" "$i" "$k" "$( [[ -n "${KV[$k]}" ]] && echo "[SET]" || echo "" )"
+      idxmap[$i]="$k"
+      ((i++))
+    done
+    local multi=$(read_input "> Keys (e.g. 1,2,5) or blank to skip: ")
+    if [[ -n "$multi" ]]; then
+      IFS=',' read -r -a arr <<<"$multi"
+      for n in "${arr[@]}"; do
+        n=$(echo "$n" | xargs)
+        [[ -z "$n" ]] && continue
+        if [[ "$n" =~ ^[0-9]+$ ]] && (( n>=1 && n<i )); then
+          key="${idxmap[$n]}"
+          val=$(read_input "Value for $key (empty keeps empty): ")
+          KV["$key"]="$val"
+        fi
+      done
+    fi
+    echo
+    local more=$(read_input "Edit more keys? [y/N]: ")
+    [[ "$more" =~ ^[Yy]$ ]] || break
+  done
+  echo
+  local deploy_now=$(read_input "Deploy now with current settings? [Y/n]: ")
+  if [[ -z "$deploy_now" || "$deploy_now" =~ ^[Yy]$ ]]; then
+    deploy
+    exit 0
+  fi
+}
 menu_main() {
   while true; do
     clear 2>/dev/null || true
@@ -290,4 +341,5 @@ deploy() {
   echo "Open: http://localhost:5000"
 }
 
+onboarding
 menu_main
