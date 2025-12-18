@@ -25,8 +25,8 @@ Skrypt poprowadzi Cię krok po kroku przez instalację! ✨
 **Użycie:**
 ```bash
 sudo ./postiz_install.sh \
-  --domain antoni115-30115.wykr.es \
-  --port 30115 \
+  --domain srv123-30123.wykr.es \
+  --port 30123 \
   --network automation-net \
   --n8n-container n8n
 ```
@@ -56,11 +56,11 @@ sudo ./postiz_install_interactive.sh
 ```
 [postiz_install_interactive.sh] === Postiz Interactive Installer v1.1 ===
 
-Port na którym ma działać Postiz [30115]: ⏎
-✓ Port: 30115
+Port na którym ma działać Postiz [30123]: ⏎
+✓ Port: 30123
 
-Domena/subdomena dla Postiz [antoni115-30115.wykr.es]: ⏎
-✓ Domena: antoni115-30115.wykr.es
+Domena/subdomena dla Postiz [srv123-30123.wykr.es]: ⏎
+✓ Domena: srv123-30123.wykr.es
 
 Katalog instalacji [/srv/postiz]: ⏎
 ✓ Katalog: /srv/postiz
@@ -79,8 +79,8 @@ Wyłączyć rejestrację nowych użytkowników? [Y/n]: y
 ✓ Rejestracja zostanie wyłączona
 
 === Podsumowanie konfiguracji ===
-  Domena:              https://antoni115-30115.wykr.es
-  Port:                30115
+  Domena:              https://srv123-30123.wykr.es
+  Port:                30123
   Obraz:               ghcr.io/gitroomhq/postiz-app:latest
 
 Rozpocząć instalację? [Y/n]: y
@@ -155,7 +155,7 @@ sudo ./postiz_install_with_r2.sh
 
 ```bash
 # 1. Zaloguj się na serwer
-ssh -p 10115 root@antoni115.mikrus.xyz
+ssh -p 10123 root@srv123.mikrus.xyz
 
 # 2. Zainstaluj Docker (jeśli nie masz)
 curl -fsSL https://get.docker.com | sh
@@ -180,13 +180,13 @@ sudo ./postiz_install_interactive.sh
 # 1-3. Jak wyżej
 
 # 4. Pobierz skrypt
-wget https://raw.githubusercontent.com/TwojaOrg/postiz-mikrus-installer/main/postiz_install.sh
+wget https://raw.githubusercontent.com/simplybychris/postiz-setup/main/postiz-mikrus-installer/postiz_install.sh
 chmod +x postiz_install.sh
 
 # 5. Uruchom z parametrami
 sudo ./postiz_install.sh \
-  --domain antoni115-30115.wykr.es \
-  --port 30115 \
+  --domain srv123-30123.wykr.es \
+  --port 30123 \
   --network automation-net \
   --n8n-container n8n \
   --disable-registration
@@ -249,7 +249,7 @@ Wszystkie trzy skrypty instalują:
 
 ### Subdomena wykr.es (automatyczna)
 ```
-https://antoni115-30115.wykr.es
+https://srv123-30123.wykr.es
 ```
 Format: `https://[NAZWA_SERWERA]-[PORT].wykr.es`
 
@@ -260,7 +260,7 @@ https://postiz.twojadomena.pl
 Wymaga konfiguracji CloudFlare (AAAA record + Proxy)
 
 ### Pierwszy login
-1. Otwórz: `https://antoni115-30115.wykr.es`
+1. Otwórz: `https://srv123-30123.wykr.es`
 2. Przekieruje na: `/auth`
 3. Zarejestruj się (jeśli nie wyłączyłeś rejestracji)
 4. Lub zaloguj się (jeśli masz już konto)
@@ -325,11 +325,11 @@ docker compose down && docker compose up -d
 ### Port zajęty
 ```bash
 # Sprawdź co używa portu:
-ss -tulpn | grep :30115
+ss -tulpn | grep :30123
 
 # Zmień port w docker-compose.yml:
 nano /srv/postiz/docker-compose.yml
-# Zmień: "30115:5000" na "30116:5000"
+# Zmień: "30123:5000" na "30124:5000"
 
 # Restart:
 docker compose down && docker compose up -d
