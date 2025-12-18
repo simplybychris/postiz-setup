@@ -2,6 +2,14 @@
 
 Zestaw skryptów instalacyjnych Postiz z integracją n8n dla serwerów Mikrus.us (i innych VPS z Dockerem).
 
+## 🚀 Szybki start (One-liner)
+
+```bash
+wget https://raw.githubusercontent.com/simplybychris/postiz-setup/main/postiz-mikrus-installer/postiz_install_interactive.sh && chmod +x postiz_install_interactive.sh && sudo ./postiz_install_interactive.sh
+```
+
+Skrypt poprowadzi Cię krok po kroku przez instalację! ✨
+
 ## 📦 Trzy warianty instalacji
 
 ### 1. `postiz_install.sh` - Podstawowy (z flagami)
@@ -34,6 +42,8 @@ sudo ./postiz_install.sh \
 - Pytania po kolei o każdy parametr
 - Domyślne wartości (Enter = akceptacja domyślnej)
 - Automatyczna detekcja (nazwa serwera, istniejąca sieć, kontenery n8n)
+- **Wybór obrazu Docker** - oryginalny lub lokalny/zmodyfikowany
+- Walidacja portów i obrazów
 - Przyjazne komunikaty i podpowiedzi
 
 **Użycie:**
@@ -44,19 +54,36 @@ sudo ./postiz_install_interactive.sh
 
 **Przykładowa sesja:**
 ```
-[postiz_install_interactive.sh] === Postiz Interactive Installer ===
+[postiz_install_interactive.sh] === Postiz Interactive Installer v1.1 ===
+
+Port na którym ma działać Postiz [30115]: ⏎
+✓ Port: 30115
 
 Domena/subdomena dla Postiz [antoni115-30115.wykr.es]: ⏎
-✓ Używam: antoni115-30115.wykr.es
+✓ Domena: antoni115-30115.wykr.es
 
-Port (20000-65535) [30115]: ⏎
-✓ Używam: 30115
+Katalog instalacji [/srv/postiz]: ⏎
+✓ Katalog: /srv/postiz
 
 Sieć Docker [automation-net]: ⏎
-✓ Sieć automation-net już istnieje
+✓ Sieć: automation-net
 
-Wykryto kontener n8n. Podłączyć do wspólnej sieci? [Y/n]: y
-✓ Podłączono n8n do automation-net
+Wykryto kontener n8n: n8n
+Podłączyć n8n do wspólnej sieci automation-net? [Y/n]: y
+✓ Integracja z n8n: n8n
+
+Użyć lokalnego/zmodyfikowanego obrazu? [y/N]: n
+✓ Używam oryginalnego obrazu: ghcr.io/gitroomhq/postiz-app:latest
+
+Wyłączyć rejestrację nowych użytkowników? [Y/n]: y
+✓ Rejestracja zostanie wyłączona
+
+=== Podsumowanie konfiguracji ===
+  Domena:              https://antoni115-30115.wykr.es
+  Port:                30115
+  Obraz:               ghcr.io/gitroomhq/postiz-app:latest
+
+Rozpocząć instalację? [Y/n]: y
 ```
 
 ---
@@ -138,7 +165,7 @@ curl -fsSL https://get.docker.com | sh
 n8n_install  # komenda z NOOBS na Mikrus
 
 # 4. Pobierz skrypt
-wget https://raw.githubusercontent.com/TwojaOrg/postiz-mikrus-installer/main/postiz_install_interactive.sh
+wget https://raw.githubusercontent.com/simplybychris/postiz-setup/main/postiz-mikrus-installer/postiz_install_interactive.sh
 chmod +x postiz_install_interactive.sh
 
 # 5. Uruchom instalację
